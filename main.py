@@ -1,10 +1,12 @@
 import os
 import re
 
+
 def set_github_action_output(output_name, output_value):
     f = open(os.path.abspath(os.environ["GITHUB_OUTPUT"]), "a")
-    f.write(f'{output_name}={output_value}')
+    f.write(f'{output_name}={output_value}\n')
     f.close()    
+
 
 def main():
     commit_message = os.environ.get("INPUT_COMMITMESSAGE", "").strip()
@@ -17,6 +19,7 @@ def main():
         set_github_action_output("outcome", "valid")
     else:
         set_github_action_output("outcome", "invalid")
+
 
 if __name__ == "__main__":
     main()
