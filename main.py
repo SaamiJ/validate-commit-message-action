@@ -4,7 +4,7 @@ import re
 
 def set_github_action_output(output_name, output_value):
     with open(os.environ["GITHUB_OUTPUT"], "a") as f:
-        f.write(f'{output_name}={output_value}\n')  
+        f.write(f'{output_name}={output_value}\n')
 
 
 def main():
