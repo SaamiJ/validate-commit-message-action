@@ -1,15 +1,29 @@
 name: Integration Test
 on: [push]
+
 jobs:
   build:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
-      
-      - name: Self test
-        id: selftest
-        uses: SaamiJ/validate-commit-message-action@master
+      - name: Checkout repo
+        uses: actions/checkout@v4
 
-      - name: Check outputs
+      - name: Get latest commit message
+        id: get_commit
         run: |
-          test "${{ steps.selftest.outputs.myOutput }}" == "Hello world"
+          echo "msg=$(git log -1 --pretty=%B)" >> $GITHUB_OUTPUT
+
+      - name: Run self-hosted commit message validation
+        id: validator
+        uses: ./
+        with:
+          commitMessage: "${{ steps.get_commit.outputs.msg }}"
+
+      - name: Assert validation outcome
+        run: |
+          if [[ "${{ steps.validator.outputs.outcome }}" != "valid" ]]; then
+            echo "Commit message does not follow required format (feat:, fix:, docs:)"
+            exit 1
+          else
+            echo "Commit message is valid"
+          fi
