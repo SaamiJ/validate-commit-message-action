@@ -1,13 +1,13 @@
-name: "Python Container Action Template"
-description: "Get started with Python Container actions"
-author: "Jacob Tomlinson"
+name: "Validate Commit Message"
+description: "Validate the commit message against the standardised format"
+author: "Saami Junaidi"
 inputs:
-  myInput:
-    description: "Input to use"
-    default: "world"
+  commitMessage:
+    description: "Commit message to be validated"
+    required: true
 outputs:
-  myOutput:
-    description: "Output from the action"
+  outcome:
+    description: "Result: 'valid' or 'invalid'"
 runs:
   using: "docker"
   image: "Dockerfile"
